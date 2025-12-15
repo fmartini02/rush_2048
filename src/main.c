@@ -3,10 +3,12 @@
 int	g_sigint_pressed;
 
 static void	signal_handler(int signal);
+static void	cleanup(void);
 
 int	main()
 {
 	signal(SIGINT, signal_handler);
+	atexit(cleanup);
 
 	// Just for development
 	if (false)
@@ -44,13 +46,21 @@ int	main()
 
 	render_menù();
 
-	endwin();
 	return (0);
+}
+
+static void	cleanup(void)
+{
+	endwin();
 }
 
 static void	signal_handler(int signal)
 {
 	// Ctrl+C
 	if (signal == SIGINT)
+	{
 		g_sigint_pressed = true;
+		endwin();
+		exit(0);
+	}
 }

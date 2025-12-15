@@ -175,14 +175,14 @@ void	can_move(t_game *g)
 
 int make_move(t_game *g, int dir)
 {
-	if (dir == DIR_UP)
-		move_up(g, 0);
-	else if (dir == DIR_DOWN)
-		move_down(g, 0);
-	else if (dir == DIR_LEFT)
-		move_left(g, 0);
-	else if (dir == DIR_RIGHT)
-		move_right(g, 0);
+	// if (dir == DIR_UP)
+	// 	move_up(g, 0);
+	// else if (dir == DIR_DOWN)
+	// 	move_down(g, 0);
+	// else if (dir == DIR_LEFT)
+	// 	move_left(g, 0);
+	// else if (dir == DIR_RIGHT)
+	// 	move_right(g, 0);
 
 	if (g->added && g->can_move)
 		add_random_tile(g);

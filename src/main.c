@@ -9,7 +9,7 @@ int	main()
 	signal(SIGINT, signal_handler);
 
 	// Just for development
-	if (true)
+	if (false)
 	{
 		test_move();
 		return (0);

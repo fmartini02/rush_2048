@@ -132,8 +132,8 @@ static int	render_size_choice_menu(void)
 	int		n_options = 3;
 	char	*options[] =
 	{
-		"3x3",
 		"4x4",
+		"5x5",
 		"Back to Main Menu"
 	};
 
@@ -185,7 +185,7 @@ static int	render_size_choice_menu(void)
 					return (-1);
 				}
 
-				int	size = (highlight == 0) ? 3 : 4;
+				int	size = (highlight == 0) ? 4 : 5;
 				return (size);
 
 				break;

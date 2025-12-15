@@ -16,7 +16,7 @@ extern int	g_sigint_pressed;
 
 typedef struct	s_game
 {
-	int		board[SIZE][SIZE];
+	int		**board;
 	int		score;
 	int		size;
 	bool	esc;

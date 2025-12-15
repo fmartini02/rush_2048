@@ -185,38 +185,37 @@ void	can_move(t_game *g)
 	g->can_move = false;
 }
 
-int main()
+int make_move(t_game *g, int dir)
 {
-	t_game	g = (t_game){0};
 	int		ch;
 
 	initscr();
 	cbreak();
 	noecho();
 	keypad(stdscr, TRUE);
-	g.size = SIZE;
-	add_random_tile(&g);
-	add_random_tile(&g);
+	g->size = SIZE;
+	add_random_tile(g);
+	add_random_tile(g);
 	for(int i = 0; i < SIZE; i++) {
 		for(int j = 0; j < SIZE; j++)
-			printw(" %d ", g.board[i][j]);
+			printw(" %d ", g->board[i][j]);
 		printw("\n");
 	}
 	printw("\n");
 	refresh();
-	can_move(&g);
-	while (g.can_move)
+	can_move(g);
+	while (g->can_move)
 	{
-		g.added = false;
+		g->added = false;
 		ch = getch();
-		set_bit_flag(ch, &g);
-		process_input(&g);
-		can_move(&g);
-		if (g.added && g.can_move)
-			add_random_tile(&g);
+		set_bit_flag(ch, g);
+		process_input(g);
+		can_move(g);
+		if (g->added && g->can_move)
+			add_random_tile(g);
 		for(int i = 0; i < SIZE; i++) {
 			for(int j = 0; j < SIZE; j++)
-				printw(" %d ", g.board[i][j]);
+				printw(" %d ", g->board[i][j]);
 			printw("\n");
 		}
 		printw("\n");

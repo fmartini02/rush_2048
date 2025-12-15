@@ -48,8 +48,8 @@ void	render_menù()
 
 		switch (choice)
 		{
-			// Exit on ESC
-			case 27:  // ESC key
+			// Exit
+			case ESC:
 				free_game(saved_game);
 				return;
 
@@ -166,7 +166,7 @@ static int	render_size_choice_menu(void)
 
 		switch (choice)
 		{
-			case 27:  // ESC key - go back
+			case ESC:  // go back
 				return (-1);
 
 			case KEY_UP:

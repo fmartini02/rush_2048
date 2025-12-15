@@ -1,10 +1,8 @@
-# include <stdlib.h>
-# include <ncurses.h>
-# include <string.h>
+#include <stdlib.h>
+#include <ncurses.h>
+#include <string.h>
 # include <signal.h>
-# include <stdbool.h>
 
-#define SIZE 4
 #define ESC 27
 #define DIR_UP (1 << 0)
 #define DIR_DOWN (1 << 1)
@@ -14,11 +12,24 @@
 
 extern int	g_sigint_pressed;
 
-typedef struct {
-	int		board[SIZE][SIZE];
+
+typedef struct	s_game
+{
+	int		**board;
 	int		score;
-	int		game_over;
-	bool	esc;
-	bool	can_move;
+	int		size;
+
 	uint8_t	bit_flag;
 } t_game;
+
+
+t_game	*init_new_game(int size);
+
+int		make_move(t_game *game, int direction);
+void	test_move(); // TO DO REMOVE
+
+void	free_game(t_game *game);
+
+void	render_menù();
+
+int		render_game(t_game *game);

@@ -7,9 +7,10 @@ VALGRIND =  valgrind --leak-check=full --track-origins=yes --show-leak-kinds=def
 INCLUDES = -I./includes
 
 SRC = src/main.c \
+		src/utils.c \
 		src/ui/menù.c \
 		src/ui/game.c \
-		src/utils.c
+		src/game/game_logic.c
 
 FLAGS	= -g -O3
 FLAGS	+= -Wall -Werror -Wextra

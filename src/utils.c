@@ -8,10 +8,11 @@ t_game	*init_new_game(int size)
 	if (!game)
 		return (NULL);
 
-	game->game_over = false;
 	game->size = size;
+	game->score = 0;
+	game->bit_flag = 0;
 
-	game->board = malloc(sizeof(int) * size);
+	game->board = malloc(sizeof(int *) * size);
 	for (int i = 0; i < size; i++)
 		game->board[i] = malloc(sizeof(int) * size);
 

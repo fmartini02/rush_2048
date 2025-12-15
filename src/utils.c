@@ -1,27 +1,34 @@
 #include "2048.h"
 
-// t_game	*init_new_game(int size)
-// {
-// 	t_game	*game;
+t_game	*init_new_game(int size)
+{
+	t_game	*game;
 
-// 	game = (t_game *)malloc(sizeof(t_game));
-// 	if (!game)
-// 		return (NULL);
+	game = (t_game *)malloc(sizeof(t_game));
+	if (!game)
+		return (NULL);
 
-// 	game->size = size;
-// 	game->score = 0;
-// 	game->bit_flag = 0;
+	game->size = size;
+	game->score = 0;
 
-// 	game->board = malloc(sizeof(int *) * size);
-// 	for (int i = 0; i < size; i++)
-// 		game->board[i] = malloc(sizeof(int) * size);
+	game->can_move = true;
+	game->added = false;
 
-// 	// the game starts with two tiles
-// 	add_random_tile(game);
-// 	add_random_tile(game);
+	game->board = malloc(sizeof(int *) * size);
+	for (int i = 0; i < size; i++)
+	{
+		game->board[i] = malloc(sizeof(int) * size);
+		// Initialize all cells to 0
+		for (int j = 0; j < size; j++)
+			game->board[i][j] = 0;
+	}
 
-// 	return (game);
-// }
+	// the game starts with two tiles
+	add_random_tile(game);
+	add_random_tile(game);
+
+	return (game);
+}
 
 void	free_game(t_game *game)
 {

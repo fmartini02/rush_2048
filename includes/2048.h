@@ -19,11 +19,8 @@ typedef struct	s_game
 	int		**board;
 	int		score;
 	int		size;
-	bool	esc;
 	bool	can_move;
 	bool	added;
-	bool	end;
-	uint8_t	bit_flag;
 } t_game;
 
 

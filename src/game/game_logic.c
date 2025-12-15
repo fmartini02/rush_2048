@@ -132,32 +132,20 @@ void	move_right(t_game *g, int i) {
 	move_right(g, i + 1);
 }
 
-void	set_bit_flag(int key, t_game *g) {
-	uint8_t mask = 0;
+// void	set_bit_flag(int key, t_game *g) {
+// 	uint8_t mask = 0;
 
-	if (key == ESC) {
-		g->esc = true;
-		return;
-	}
-	mask |= (key == 'w' || key == 'W' || key == KEY_UP) * DIR_UP;
-	mask |= (key == 's' ||  key == 'S' || key == KEY_DOWN) * DIR_DOWN;
-	mask |= (key == 'a' ||  key == 'A' || key == KEY_LEFT) * DIR_LEFT;
-	mask |= (key == 'd' ||  key == 'D' || key == KEY_RIGHT) * DIR_RIGHT;
-	g->bit_flag |= mask;
-	return;
-}
-
-void	process_input(t_game *g) {
-	if (g->bit_flag & DIR_UP)
-		move_up(g, 0);
-	else if (g->bit_flag & DIR_DOWN)
-		move_down(g, 0);
-	else if (g->bit_flag & DIR_LEFT)
-		move_left(g, 0);
-	else if (g->bit_flag & DIR_RIGHT)
-		move_right(g, 0);
-	g->bit_flag = 0;
-}
+// 	if (key == ESC) {
+// 		g->esc = true;
+// 		return;
+// 	}
+// 	mask |= (key == 'w' || key == 'W' || key == KEY_UP) * DIR_UP;
+// 	mask |= (key == 's' ||  key == 'S' || key == KEY_DOWN) * DIR_DOWN;
+// 	mask |= (key == 'a' ||  key == 'A' || key == KEY_LEFT) * DIR_LEFT;
+// 	mask |= (key == 'd' ||  key == 'D' || key == KEY_RIGHT) * DIR_RIGHT;
+// 	g->bit_flag |= mask;
+// 	return;
+// }
 
 void	can_move(t_game *g)
 {
@@ -187,8 +175,17 @@ void	can_move(t_game *g)
 
 int make_move(t_game *g, int dir)
 {
-	set_bit_flag(dir, g);
-	process_input(g);
+	if (dir == DIR_UP)
+		move_up(g, 0);
+	else if (dir == DIR_DOWN)
+		move_down(g, 0);
+	else if (dir == DIR_LEFT)
+		move_left(g, 0);
+	else if (dir == DIR_RIGHT)
+		move_right(g, 0);
+
 	if (g->added && g->can_move)
 		add_random_tile(g);
+
+	return (0);
 }

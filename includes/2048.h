@@ -4,6 +4,7 @@
 # include <signal.h>
 
 #define ESC 27
+#define SIZE 4
 #define DIR_UP (1 << 0)
 #define DIR_DOWN (1 << 1)
 #define DIR_LEFT (1 << 2)
@@ -18,7 +19,9 @@ typedef struct	s_game
 	int		**board;
 	int		score;
 	int		size;
-
+	bool	esc;
+	bool	can_move;
+	bool	added;
 	uint8_t	bit_flag;
 } t_game;
 

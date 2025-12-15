@@ -4,28 +4,74 @@ int	g_sigint_pressed;
 
 static void	signal_handler(int signal);
 
-int	main()
-{
-	signal(SIGINT, signal_handler);
 
-	// Initialize ncurses
-	initscr();
-	clear();
-	noecho();
-	cbreak();
-	halfdelay(1);  // Make getch() timeout after 0.1 seconds
-	curs_set(0);  // Hide cursor
-	keypad(stdscr, TRUE);
+// void init_game(t_game *g);
+void move_left(t_game *g);
+void move_right(t_game *g);
+void move_up(t_game *g);
+void move_down(t_game *g);
+void add_random_num(t_game *g);
+int can_move(t_game *g);
 
-	render_menù();
+void	move_up(t_game *g) {
+	int	i = SIZE - 1, j = 0;
+	int	num = 0;
 
-	endwin();
-	return (0);
+	while (i)
 }
 
-static void	signal_handler(int signal)
+void	move_down(t_game *g) {
+
+}
+
+void	move_left(t_game *g) {
+
+}
+
+void	move_right(t_game *g) {
+
+}
+void	set_bit_flag(int key, t_game *g) {
+	uint8_t mask = 0;
+
+	if (key = ESC) {
+		g->esc = true;
+		return;
+	}
+	mask |= (key == 'w' || key == 'W' || key == KEY_UP) * DIR_UP;
+	mask |= (key == 's' ||  key == 'S' || key == KEY_DOWN) * DIR_DOWN;
+	mask |= (key == 's' ||  key == 'S' || key == KEY_LEFT) * DIR_LEFT;
+	mask |= (key == 's' ||  key == 'S' || key == KEY_RIGHT) * DIR_RIGHT;
+	g->bit_flag |= mask;
+	return;
+}
+
+void process_input(t_game *g)
 {
-	// Ctrl+C
-	if (signal == SIGINT)
-		g_sigint_pressed = true;
+	if (g->bit_flag & KEY_UP)
+		move_up(g);
+	else if (g->bit_flag & KEY_DOWN)
+		move_down(g);
+	else if (g->bit_flag & KEY_LEFT)
+		move_left(g);
+	else if (g->bit_flag & KEY_RIGHT)
+		move_right(g);
+	g->bit_flag = 0;
+}
+
+int	main() {
+	t_game	g = (t_game){0};
+	g.esc = false;
+	g.can_move = true;
+	int		ch;
+
+	initscr();
+	cbreak();
+	noecho();
+	keypad(stdscr, TRUE);
+	while (can_move) {
+		ch = getch();
+		set_bit_flag(ch, &g);
+		process_movement(&g);
+	}
 }

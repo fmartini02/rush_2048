@@ -1,11 +1,11 @@
 #include "2048.h"
 
 void	move_up(t_game *g, int j) {
-	int		i = SIZE;
+	int		i = g->size - 1;
 	int		num = 0;
 	bool	repeat_flag = false;
 
-	if (j >= SIZE)
+	if (j >= g->size)
 		return;
 	while (i > 0) {
 		num = g->board[i - 1][j];
@@ -15,7 +15,7 @@ void	move_up(t_game *g, int j) {
 			g->board[i][j] = 0;
 			num = g->board[i - 1][j];
 			repeat_flag = true;
-			i = g->size;
+			i = 0;
 		}
 		else if (num != g->board[i - 1][j] && g->board[i - 1][j] != 0) {
 			num = g->board[i - 1][j];
@@ -25,7 +25,7 @@ void	move_up(t_game *g, int j) {
 			g->board[i - 1][j] = num;
 			g->board[i][j] = 0;
 			repeat_flag = true;
-			i = g->size;
+			i = 0;
 		}
 		if (!repeat_flag)
 			i++;
@@ -38,9 +38,9 @@ void	move_down(t_game *g, int j) {
 	int		num = 0;
 	bool	repeat_flag = false;
 
-	if (j >= SIZE)
+	if (j >= g->size)
 		return;
-	while (i < SIZE -1) {
+	while (i < g->size -1) {
 		num = g->board[i][j];
 		if (num == g->board[i + 1][j]) {
 			g->board[i + 1][j] = num + num;
@@ -48,7 +48,7 @@ void	move_down(t_game *g, int j) {
 			g->added = true;
 			num = g->board[i + 1][j];
 			repeat_flag = true;
-			i = g->size;
+			i = g->size - 1;
 		}
 		else if (num != g->board[i + 1][j] && g->board[i + 1][j] != 0) {
 			num = g->board[i + 1][j];
@@ -58,7 +58,7 @@ void	move_down(t_game *g, int j) {
 			g->board[i + 1][j] = num;
 			g->board[i][j] = 0;
 			repeat_flag = true;
-			i = g->size;
+			i = g->size - 1;
 		}
 		if (!repeat_flag)
 			i++;
@@ -67,11 +67,11 @@ void	move_down(t_game *g, int j) {
 }
 
 void	move_left(t_game *g, int i) {
-	int		j = SIZE;
+	int		j = g->size - 1;
 	int		num = 0;
 	bool	repeat_flag = false;
 
-	if (i >= SIZE)
+	if (i >= g->size)
 		return;
 	while (j > 0) {
 		num = g->board[i][j - 1];
@@ -81,7 +81,7 @@ void	move_left(t_game *g, int i) {
 			g->added = true;
 			num = g->board[i][j - 1];
 			repeat_flag = true;
-			j = g->size;
+			j = 0;
 		}
 		else if (num != g->board[i][j - 1] && g->board[i][j - 1] != 0) {
 			num = g->board[i][j - 1];
@@ -91,7 +91,7 @@ void	move_left(t_game *g, int i) {
 			g->board[i][j - 1] = num;
 			g->board[i][j] = 0;
 			repeat_flag = true;
-			j = g->size;
+			j = 0;
 		}
 		if (!repeat_flag)
 			j--;
@@ -104,9 +104,9 @@ void	move_right(t_game *g, int i) {
 	int		num = 0;
 	bool	repeat_flag = false;
 
-	if (i >= SIZE)
+	if (i >= g->size)
 		return;
-	while (j < SIZE -1) {
+	while (j < g->size -1) {
 		num = g->board[i][j + 1];
 		if (num == g->board[i][j + 1]) {
 			g->board[i][j + 1] = num + num;
@@ -114,7 +114,7 @@ void	move_right(t_game *g, int i) {
 			g->added = true;
 			num = g->board[i][j + 1];
 			repeat_flag = true;
-			i = 0;
+			j = g->size - 1;
 		}
 		else if (num != g->board[i][j + 1] && g->board[i][j + 1] != 0) {
 			num = g->board[i][j + 1];
@@ -124,7 +124,7 @@ void	move_right(t_game *g, int i) {
 			g->board[i][j + 1] = num;
 			g->board[i][j] = 0;
 			repeat_flag = true;
-			j = 0;
+			j = g->size - 1;
 		}
 		if (!repeat_flag)
 			j++;
@@ -175,14 +175,14 @@ void	can_move(t_game *g)
 
 int make_move(t_game *g, int dir)
 {
-	// if (dir == DIR_UP)
-	// 	move_up(g, 0);
-	// else if (dir == DIR_DOWN)
-	// 	move_down(g, 0);
-	// else if (dir == DIR_LEFT)
-	// 	move_left(g, 0);
-	// else if (dir == DIR_RIGHT)
-	// 	move_right(g, 0);
+	if (dir == DIR_UP)
+		move_up(g, 0);
+	else if (dir == DIR_DOWN)
+		move_down(g, 0);
+	else if (dir == DIR_LEFT)
+		move_left(g, 0);
+	else if (dir == DIR_RIGHT)
+		move_right(g, 0);
 
 	if (g->added && g->can_move)
 		add_random_tile(g);

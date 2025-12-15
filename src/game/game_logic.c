@@ -159,33 +159,7 @@ void	process_input(t_game *g) {
 	g->bit_flag = 0;
 }
 
-void	can_move(t_game *g)
-{
-	int i;
-	int j;
-
-	for (i = 0; i < g->size; i++)
-	{
-		for (j = 0; j < g->size; j++)
-		{
-			if (g->board[i][j] == 0){
-				g->can_move = true;
-				return;
-			}
-			if (i + 1 < g->size && g->board[i][j] == g->board[i + 1][j]){
-				g->can_move = true;
-				return;
-			}
-			if (j + 1 < g->size && g->board[i][j] == g->board[i][j + 1]){
-				g->can_move = true;
-				return;
-			}
-		}
-	}
-	g->can_move = false;
-}
-
-int main()
+void	fixtest_move()
 {
 	t_game	g = (t_game){0};
 	int		ch;

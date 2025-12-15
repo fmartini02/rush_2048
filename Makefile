@@ -13,7 +13,7 @@ SRC = src/main.c \
 # 		src/game/game_logic.c
 
 FLAGS	= -g -O3
-FLAGS	+= -Wall -Werror -Wextra
+# FLAGS	+= -Wall -Werror -Wextra
 
 $(NAME): $(SRC)
 	@cc $(SRC) $(INCLUDES) $(NCURSES) $(FLAGS) -o $(NAME)

@@ -28,6 +28,8 @@ t_game	*init_new_game(int size);
 int		make_move(t_game *game, int direction);
 void	test_move(); // TO DO REMOVE
 
+void	add_random_tile(t_game *game);
+
 void	free_game(t_game *game);
 
 void	render_menù();

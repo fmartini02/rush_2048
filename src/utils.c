@@ -1,27 +1,27 @@
 #include "2048.h"
 
-t_game	*init_new_game(int size)
-{
-	t_game	*game;
+// t_game	*init_new_game(int size)
+// {
+// 	t_game	*game;
 
-	game = (t_game *)malloc(sizeof(t_game));
-	if (!game)
-		return (NULL);
+// 	game = (t_game *)malloc(sizeof(t_game));
+// 	if (!game)
+// 		return (NULL);
 
-	game->size = size;
-	game->score = 0;
-	game->bit_flag = 0;
+// 	game->size = size;
+// 	game->score = 0;
+// 	game->bit_flag = 0;
 
-	game->board = malloc(sizeof(int *) * size);
-	for (int i = 0; i < size; i++)
-		game->board[i] = malloc(sizeof(int) * size);
+// 	game->board = malloc(sizeof(int *) * size);
+// 	for (int i = 0; i < size; i++)
+// 		game->board[i] = malloc(sizeof(int) * size);
 
-	// the game starts with two tiles
-	add_random_tile(game);
-	add_random_tile(game);
+// 	// the game starts with two tiles
+// 	add_random_tile(game);
+// 	add_random_tile(game);
 
-	return (game);
-}
+// 	return (game);
+// }
 
 void	free_game(t_game *game)
 {
@@ -35,13 +35,12 @@ void	free_game(t_game *game)
 	free(game);
 }
 
-void	add_random_tile(t_game *game)
+void add_random_tile(t_game *game)
 {
-	int	empty_cells[game->size * game->size][2];
-	int	empty_count = 0;
-	int	i, j;
+	int empty_cells[game->size * game->size][2];
+	int empty_count = 0;
+	int i, j;
 
-	// Find all empty cells
 	for (i = 0; i < game->size; i++)
 	{
 		for (j = 0; j < game->size; j++)
@@ -58,12 +57,11 @@ void	add_random_tile(t_game *game)
 	if (empty_count == 0)
 		return;
 
-	// Select a random empty cell
-	int	rand_index = rand() % empty_count;
-	int	row = empty_cells[rand_index][0];
-	int	col = empty_cells[rand_index][1];
+	int rand_index = rand() % empty_count;
+	int row = empty_cells[rand_index][0];
+	int col = empty_cells[rand_index][1];
 
-	// Place a new tile (90% chance of 2, 10% chance of 4)
-	int	new_value = (rand() % 10 == 0) ? 4 : 2;
-	game->board[row][col] = new_value;
+	game->board[row][col] = (rand() % 10 == 0) ? 4 : 2;
+	game->added = 1;
 }
+

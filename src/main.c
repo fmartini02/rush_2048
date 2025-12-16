@@ -25,6 +25,8 @@ int	main()
 	halfdelay(1);  // Make getch() timeout after 0.1 seconds
 	curs_set(0);  // Hide cursor
 	keypad(stdscr, TRUE);
+	mousemask(ALL_MOUSE_EVENTS, NULL);
+	mouseinterval(0);
 	
 	// Initialize colors
 	if (has_colors())

@@ -36,6 +36,10 @@ int	render_game(t_game *game)
 		if (key == ERR)
 			continue;
 
+		// Ignore mouse events (including scroll wheel)
+		if (key == KEY_MOUSE)
+			continue;
+
 		// Process arrow keys
 		switch (key)
 		{

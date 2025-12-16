@@ -10,7 +10,7 @@ int	main()
 	// Check that the WIN_VALUE is a power of two
 	if (WIN_VALUE <= 0 || (WIN_VALUE & (WIN_VALUE - 1)) != 0)
 	{
-		int	n = write(STDERR_FILENO, "Error: WIN_VALUE must be a power of two greater than 0.\n", 57);
+		write(STDERR_FILENO, "Error: WIN_VALUE must be a power of two greater than 0.\n", 57);
 		return (1);
 	}
 

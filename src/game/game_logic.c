@@ -182,7 +182,7 @@ int	check_win(t_game *g)
 	{
 		for (j = 0; j < g->size; j++)
 		{
-			if (g->board[i][j] == g->win_condition)
+			if (g->board[i][j] == (int)g->win_condition)
 				return 1;
 		}
 	}

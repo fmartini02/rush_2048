@@ -15,7 +15,7 @@ SRC = src/main.c \
 		garbage_collector/trash_bin.c
 
 FLAGS	= -g -O3
-# FLAGS	+= -Wall -Werror -Wextra
+FLAGS	+= -Wall -Werror -Wextra
 
 $(NAME): $(SRC)
 	@cc $(SRC) $(INCLUDES) $(NCURSES) $(FLAGS) -o $(NAME)

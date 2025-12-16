@@ -34,10 +34,6 @@ t_game	*init_new_game(int size)
 	return (game);
 }
 
-void	free_game(t_game *game)
-{
-}
-
 void add_random_tile(t_game *game)
 {
 	int empty_cells[game->size * game->size][2];
@@ -103,7 +99,7 @@ void	save_best_score(int score)
 		if (fd != -1)
 		{
 			len = snprintf(buffer, sizeof(buffer), "%d", score);
-			int	bytes_written = write(fd, buffer, len);
+			write(fd, buffer, len);
 			close(fd);
 		}
 	}

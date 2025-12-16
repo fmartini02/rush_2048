@@ -1,4 +1,4 @@
-#include "trash_bin.h"
+#include "../includes/2048.h"
 
 t_list	*ft_lstnew(void *content)
 {

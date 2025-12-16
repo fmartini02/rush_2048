@@ -1,8 +1,9 @@
 #include "2048.h"
 
-void line_up(int *arr, int size)
+void line_up(int *arr, t_game *g)
 {
-	int write = 0;
+	int	write = 0;
+	int	size = g->size;
 
 	for (int read = 0; read < size; read++)
 	{
@@ -15,18 +16,21 @@ void line_up(int *arr, int size)
 		arr[write++] = 0;
 }
 
-void merge(int *arr, int size)
+void merge(int *arr, t_game *g)
 {
+	int size = g->size;
+
 	for (int i = 0; i < size - 1; i++)
 	{
 		if (arr[i] != 0 && arr[i] == arr[i + 1])
 		{
 			arr[i] *= 2;
+			g->score += arr[i];
 			arr[i + 1] = 0;
 			i++; // skip next tile (IMPORTANT)
 		}
 	}
-	line_up(arr, size);
+	line_up(arr, g);
 }
 
 int move_up(t_game *g)
@@ -40,13 +44,12 @@ int move_up(t_game *g)
 		for (int i = 0; i < g->size; i++)
 			arr[i] = g->board[i][j];
 
-		line_up(arr, g->size);
-		merge(arr, g->size);
+		line_up(arr, g);
+		merge(arr, g);
 
 		for (int i = 0; i < g->size; i++)
 			g->board[i][j] = arr[i];
 	}
-	free(arr);
 	return 0;
 }
 
@@ -64,14 +67,13 @@ int move_down(t_game *g)
 		for (int i = g->size - 1; i >= 0; i--)
 			arr[idx++] = g->board[i][j];
 
-		line_up(arr, g->size);
-		merge(arr, g->size);
+		line_up(arr, g);
+		merge(arr, g);
 
 		idx = 0;
 		for (int i = g->size - 1; i >= 0; i--)
 			g->board[i][j] = arr[idx++];
 	}
-	free(arr);
 	return 0;
 }
 
@@ -86,13 +88,12 @@ int move_left(t_game *g)
 		for (int j = 0; j < g->size; j++)
 			arr[j] = g->board[i][j];
 
-		line_up(arr, g->size);
-		merge(arr, g->size);
+		line_up(arr, g);
+		merge(arr, g);
 
 		for (int j = 0; j < g->size; j++)
 			g->board[i][j] = arr[j];
 	}
-	free(arr);
 	return 0;
 }
 
@@ -110,14 +111,13 @@ int move_right(t_game *g)
 		for (int j = g->size - 1; j >= 0; j--)
 			arr[idx++] = g->board[i][j];
 
-		line_up(arr, g->size);
-		merge(arr, g->size);
+		line_up(arr, g);
+		merge(arr, g);
 
 		idx = 0;
 		for (int j = g->size - 1; j >= 0; j--)
 			g->board[i][j] = arr[idx++];
 	}
-	free(arr);
 	return 0;
 }
 
@@ -175,5 +175,8 @@ int make_move(t_game *g, int dir)
 		move_right(g);
 	if (g->added && g->can_move)
 		add_random_tile(g);
+	can_move(g);
+	if (!g->can_move)
+		return -1;
 	return (0);
 }

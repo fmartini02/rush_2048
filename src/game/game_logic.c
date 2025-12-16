@@ -6,7 +6,7 @@ void	move_up(t_game *g, int j) {
 
 	dummy_board = g->board;
 	while (1) {
-		arr = ft_malloc(sizeof(int) * g->size, 0);
+		// arr = ft_malloc(sizeof(int) * g->size, 0);
 	}
 }
 

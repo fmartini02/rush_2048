@@ -50,7 +50,7 @@ void	render_menù()
 		{
 			// Exit
 			case ESC:
-				free_game(saved_game);
+				// free_game(saved_game);
 				return;
 
 			case KEY_UP:
@@ -70,14 +70,14 @@ void	render_menù()
 			case 10:  // Enter key
 				if (highlight == n_options - 1)  // Exit selected
 				{
-					free_game(saved_game);
+					// free_game(saved_game);
 					return;
 				}
 
 				if (highlight == 0)  // New Game selected
 				{
 					// Free old saved game if exists
-					free_game(saved_game);
+					// free_game(saved_game);
 					saved_game = NULL;
 
 					int	size = render_size_choice_menu();
@@ -93,7 +93,7 @@ void	render_menù()
 					if (result == 0)  // ESC pressed - save game
 						saved_game = game;
 					else  // Game over - free game
-						free_game(game);
+						// free_game(game);
 
 					clear();
 				}
@@ -104,7 +104,7 @@ void	render_menù()
 						int	result = render_game(saved_game);
 						if (result == 1)  // Game over - free game
 						{
-							free_game(saved_game);
+							// free_game(saved_game);
 							saved_game = NULL;
 						}
 						clear();

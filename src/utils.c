@@ -36,7 +36,6 @@ t_game	*init_new_game(int size)
 
 void	free_game(t_game *game)
 {
-	ft_malloc(0, 1);
 }
 
 void add_random_tile(t_game *game)

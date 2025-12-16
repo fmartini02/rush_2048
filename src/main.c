@@ -46,6 +46,7 @@ int	main()
 
 static void	cleanup(void)
 {
+	ft_malloc(0, 1);
 	endwin();
 }
 

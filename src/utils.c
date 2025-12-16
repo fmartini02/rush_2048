@@ -98,7 +98,8 @@ void	save_best_score(int score)
 		fd = open(".2048_best_score", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd != -1)
 		{
-			len = snprintf(buffer, sizeof(buffer), "%d", score);
+			buffer = ft_itoa(score);
+			len = ft_strlen(buffer);
 			write(fd, buffer, len);
 			close(fd);
 		}

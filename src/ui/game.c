@@ -114,19 +114,19 @@ static int	handle_move(t_game *game, int direction)
 			mvprintw(2 + game->size * 7 / 2 + 2, 2, "Press 'C' to continue playing or ESC to exit.");
 			refresh();
 
-			cbreak();  // Disable halfdelay, enable blocking mode
+			timeout(-1);  // Blocking mode
 			int choice;
 			while (1)
 			{
 				choice = getch();
 				if (choice == 'c' || choice == 'C')
 				{
-					halfdelay(1);  // Restore halfdelay mode
+					timeout(5);  // Restore fast timeout
 					return (1);  // Continue playing, needs redraw
 				}
 				else if (choice == ESC)
 				{
-					halfdelay(1);  // Restore halfdelay mode
+					timeout(5);  // Restore fast timeout
 					return (-1);  // Exit game
 				}
 			}
@@ -141,9 +141,9 @@ static int	handle_move(t_game *game, int direction)
 		clear();
 		mvprintw(2 + game->size * 7 / 2, 2, "Game Over! Press any key to exit.");
 		refresh();
-		cbreak();  // Disable halfdelay, enable blocking mode
+		timeout(-1);  // Blocking mode
 		getch();
-		halfdelay(1);  // Restore halfdelay mode
+		timeout(5);  // Restore fast timeout
 		return (-1);
 	}
 
@@ -212,7 +212,8 @@ static void	draw_board(t_game *game)
 					int ascii_row = row - (cell_height / 2 - 2);
 					int digits = get_num_digits(value);
 					int digit_width = 5; // Width per digit in ASCII art
-					int total_width = digits * digit_width;
+					int spacing = (digits > 1) ? 1 : 0; // Add 1 space between digits
+					int total_width = digits * digit_width + (digits - 1) * spacing;
 					int padding = (cell_width - total_width) / 2;
 
 					// Left padding
@@ -232,22 +233,27 @@ static void	draw_board(t_game *game)
 						for (int col = 0; col < 5; col++)
 						{
 							const uint8_t digit_bits[10][5] = {
-								{0b01110, 0b10001, 0b10001, 0b10001, 0b01110}, // 0
-								{0b00100, 0b01100, 0b00100, 0b00100, 0b01110}, // 1
-								{0b01110, 0b10001, 0b00010, 0b00100, 0b11111}, // 2
-								{0b01110, 0b10001, 0b00110, 0b10001, 0b01110}, // 3
-								{0b10010, 0b10010, 0b11111, 0b00010, 0b00010}, // 4
-								{0b11111, 0b10000, 0b11110, 0b00001, 0b11110}, // 5
-								{0b01110, 0b10000, 0b11110, 0b10001, 0b01110}, // 6
-								{0b11111, 0b00010, 0b00100, 0b01000, 0b01000}, // 7
-								{0b01110, 0b10001, 0b01110, 0b10001, 0b01110}, // 8
-								{0b01110, 0b10001, 0b01111, 0b00001, 0b01110}  // 9
+								{0b11111, 0b11011, 0b11011, 0b11011, 0b11111}, // 0
+								{0b00100, 0b01100, 0b00100, 0b00100, 0b11111}, // 1
+								{0b11111, 0b00011, 0b11111, 0b11000, 0b11111}, // 2
+								{0b11111, 0b00011, 0b11111, 0b00011, 0b11111}, // 3
+								{0b11011, 0b11011, 0b11111, 0b00011, 0b00011}, // 4
+								{0b11111, 0b11000, 0b11111, 0b00011, 0b11111}, // 5
+								{0b11111, 0b11000, 0b11111, 0b11011, 0b11111}, // 6
+								{0b11111, 0b00011, 0b00110, 0b01100, 0b11000}, // 7
+								{0b11111, 0b11011, 0b11111, 0b11011, 0b11111}, // 8
+								{0b11111, 0b11011, 0b11111, 0b00011, 0b11111}  // 9
 							};
 							if (digit_bits[digit][ascii_row] & (1 << (4 - col)))
-								addch('#');
+								addch(ACS_CKBOARD);  // Use checkerboard/square pattern
 							else
 								addch(' ');
 						}
+						
+						// Add spacing between digits (except after last digit)
+						if (d < digits - 1)
+							addch(' ');
+						
 						temp %= divisor;
 						divisor /= 10;
 					}
@@ -301,5 +307,9 @@ static int	get_color_pair(int value)
 	if (value == 256) return 9;
 	if (value == 512) return 10;
 	if (value == 1024) return 11;
-	return 12; // 2048+
+	if (value == 2048) return 12;
+	if (value == 4096) return 13;
+	if (value == 8192) return 14;
+	if (value == 16384) return 15;
+	return 16; // 32768+
 }

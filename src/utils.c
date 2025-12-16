@@ -36,7 +36,6 @@ t_game	*init_new_game(int size)
 
 void	free_game(t_game *game)
 {
-	ft_malloc(0, 1);
 }
 
 void add_random_tile(t_game *game)
@@ -69,3 +68,43 @@ void add_random_tile(t_game *game)
 	game->added = 1;
 }
 
+int	load_best_score()
+{
+	int		fd;
+	int		best_score = 0;
+	char	buffer[32];
+	ssize_t	bytes_read;
+
+	fd = open(".2048_best_score", O_RDONLY);
+	if (fd != -1)
+	{
+		bytes_read = read(fd, buffer, sizeof(buffer) - 1);
+		if (bytes_read > 0)
+		{
+			buffer[bytes_read] = '\0';
+			best_score = atoi(buffer);
+		}
+		close(fd);
+	}
+	return (best_score);
+}
+
+void	save_best_score(int score)
+{
+	int		fd;
+	int		current_best;
+	char	buffer[32];
+	int		len;
+
+	current_best = load_best_score();
+	if (score > current_best)
+	{
+		fd = open(".2048_best_score", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd != -1)
+		{
+			len = snprintf(buffer, sizeof(buffer), "%d", score);
+			int	bytes_written = write(fd, buffer, len);
+			close(fd);
+		}
+	}
+}

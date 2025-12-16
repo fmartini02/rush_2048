@@ -7,6 +7,13 @@ static void	cleanup(void);
 
 int	main()
 {
+	// Check that the WIN_VALUE is a power of two
+	if (WIN_VALUE <= 0 || (WIN_VALUE & (WIN_VALUE - 1)) != 0)
+	{
+		int	n = write(STDERR_FILENO, "Error: WIN_VALUE must be a power of two greater than 0.\n", 57);
+		return (1);
+	}
+
 	signal(SIGINT, signal_handler);
 	atexit(cleanup);
 
@@ -46,6 +53,7 @@ int	main()
 
 static void	cleanup(void)
 {
+	ft_malloc(0, 1);
 	endwin();
 }
 

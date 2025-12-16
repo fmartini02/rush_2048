@@ -1,159 +1,126 @@
 #include "2048.h"
 
-void	line_up(int **arr, int size) {
-	int		i = 0, j = 1;
-	bool	end = false;
+void line_up(int *arr, int size)
+{
+	int write = 0;
 
-	while (!end) {
-		end = true;
-		while (j < size) {
-			if (*arr[i] == 0 && *arr[j] != 0) {
-				*arr[i] = *arr[j];
-				*arr[j] = 0;
-				end = false;
-			}
-			i++;
-			j++;
+	for (int read = 0; read < size; read++)
+	{
+		if (arr[read] != 0)
+		{
+			arr[write++] = arr[read];
 		}
-		i = 0;
-		j = 1;
 	}
+	while (write < size)
+		arr[write++] = 0;
 }
 
-void	merge(int **arr, int size) {
-	int		i = 0, j = 1;
-
-	while (j < size){
-		if (*arr[i] == *arr[j]) {
-			*arr[i] += *arr[j];
-			*arr[j] = 0;
-			line_up(arr, size);
+void merge(int *arr, int size)
+{
+	for (int i = 0; i < size - 1; i++)
+	{
+		if (arr[i] != 0 && arr[i] == arr[i + 1])
+		{
+			arr[i] *= 2;
+			arr[i + 1] = 0;
+			i++; // skip next tile (IMPORTANT)
 		}
-		i++;
-		j++;
 	}
+	line_up(arr, size);
 }
 
-int	move_up(t_game *g, int j) {
-	int i = 0;
-	int	*arr;
-	int	**dummy_board;
-
-	arr = ft_malloc(sizeof(int) * g->size, 0);
+int move_up(t_game *g)
+{
+	int *arr = ft_malloc(sizeof(int) * g->size, 0);
 	if (!arr)
 		return -1;
-	dummy_board = g->board;
-	while (j < g->size) {
-		while (i < g->size) {
-			arr[i] = dummy_board[i][j];
-			i++;
-		}
-		line_up(&arr, g->size);
-		merge(&arr, g->size);
-		i = 0;
-		while (i < g->size) {
-			dummy_board[i][j] = arr[i];
-			i++;
-		}
-		i=0;
-		j++;
+
+	for (int j = 0; j < g->size; j++)
+	{
+		for (int i = 0; i < g->size; i++)
+			arr[i] = g->board[i][j];
+
+		line_up(arr, g->size);
+		merge(arr, g->size);
+
+		for (int i = 0; i < g->size; i++)
+			g->board[i][j] = arr[i];
 	}
-	g->board = dummy_board;
+	free(arr);
 	return 0;
 }
 
-int	move_down(t_game *g, int j) {
-	int i = 0;
-	int	*arr;
-	int	**dummy_board;
 
-	arr = ft_malloc(sizeof(int) * g->size, 0);
+int move_down(t_game *g)
+{
+	int *arr = ft_malloc(sizeof(int) * g->size, 0);
 	if (!arr)
 		return -1;
-	dummy_board = g->board;
-	while (j < g->size) {
-		for (int k = g->size; k > 0; k--) {
-			arr[i] = dummy_board[k][j];
-			i++;
-		}
-		line_up(&arr, g->size);
-		merge(&arr, g->size);
-		for (int k = g->size; k > 0; k--) {
-			dummy_board[k][j] = arr[i];
-			i++;
-		}
-		i = 0;
-		j++;
+
+	for (int j = 0; j < g->size; j++)
+	{
+		int idx = 0;
+
+		for (int i = g->size - 1; i >= 0; i--)
+			arr[idx++] = g->board[i][j];
+
+		line_up(arr, g->size);
+		merge(arr, g->size);
+
+		idx = 0;
+		for (int i = g->size - 1; i >= 0; i--)
+			g->board[i][j] = arr[idx++];
 	}
-	g->board = dummy_board;
+	free(arr);
 	return 0;
 }
 
-void	move_left(t_game *g, int i) {
-	int		j = g->size - 1;
-	int		num = 0;
-	bool	repeat_flag = false;
+int move_left(t_game *g)
+{
+	int *arr = ft_malloc(sizeof(int) * g->size, 0);
+	if (!arr)
+		return -1;
 
-	if (i >= g->size)
-		return;
-	while (j > 0) {
-		num = g->board[i][j - 1];
-		if (num == g->board[i][j - 1]) {
-			g->board[i][j - 1] = num + num;
-			g->board[i][j] = 0;
-			g->added = true;
-			num = g->board[i][j - 1];
-			repeat_flag = true;
-			j = 0;
-		}
-		else if (num != g->board[i][j - 1] && g->board[i][j - 1] != 0) {
-			num = g->board[i][j - 1];
-			repeat_flag = false;
-		}
-		else if (g->board[i][j - 1] == 0) {
-			g->board[i][j - 1] = num;
-			g->board[i][j] = 0;
-			repeat_flag = true;
-			j = 0;
-		}
-		if (!repeat_flag)
-			j--;
+	for (int i = 0; i < g->size; i++)
+	{
+		for (int j = 0; j < g->size; j++)
+			arr[j] = g->board[i][j];
+
+		line_up(arr, g->size);
+		merge(arr, g->size);
+
+		for (int j = 0; j < g->size; j++)
+			g->board[i][j] = arr[j];
 	}
-	move_left(g, i + 1);
+	free(arr);
+	return 0;
 }
 
-void	move_right(t_game *g, int i) {
-	int		j = 0;
-	int		num = 0;
-	bool	repeat_flag = false;
 
-	if (i >= g->size)
-		return;
-	while (j < g->size -1) {
-		num = g->board[i][j + 1];
-		if (num == g->board[i][j + 1]) {
-			g->board[i][j + 1] = num + num;
-			g->board[i][j] = 0;
-			g->added = true;
-			num = g->board[i][j + 1];
-			repeat_flag = true;
-			j = g->size - 1;
-		}
-		else if (num != g->board[i][j + 1] && g->board[i][j + 1] != 0) {
-			num = g->board[i][j + 1];
-			repeat_flag = false;
-		}
-		else if (g->board[i][j + 1] == 0) {
-			g->board[i][j + 1] = num;
-			g->board[i][j] = 0;
-			repeat_flag = true;
-			j = g->size - 1;
-		}
-		if (!repeat_flag)
-			j++;
+int move_right(t_game *g)
+{
+	int *arr = ft_malloc(sizeof(int) * g->size, 0);
+	if (!arr)
+		return -1;
+
+	for (int i = 0; i < g->size; i++)
+	{
+		int idx = 0;
+
+		for (int j = g->size - 1; j >= 0; j--)
+			arr[idx++] = g->board[i][j];
+
+		line_up(arr, g->size);
+		merge(arr, g->size);
+
+		idx = 0;
+		for (int j = g->size - 1; j >= 0; j--)
+			g->board[i][j] = arr[idx++];
 	}
-	move_right(g, i + 1);
+	free(arr);
+	return 0;
 }
+
 
 // void	set_bit_flag(int key, t_game *g) {
 // 	uint8_t mask = 0;
@@ -199,13 +166,13 @@ void	can_move(t_game *g)
 int make_move(t_game *g, int dir)
 {
 	if (dir == DIR_UP)
-		move_up(g, 0);
+		move_up(g);
 	else if (dir == DIR_DOWN)
-		move_down(g, 0);
+		move_down(g);
 	else if (dir == DIR_LEFT)
-		move_left(g, 0);
+		move_left(g);
 	else if (dir == DIR_RIGHT)
-		move_right(g, 0);
+		move_right(g);
 	if (g->added && g->can_move)
 		add_random_tile(g);
 	return (0);

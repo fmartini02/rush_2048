@@ -1,36 +1,13 @@
 #include "2048.h"
 
 void	move_up(t_game *g, int j) {
-	int		i = g->size - 1;
-	int		num = 0;
-	bool	repeat_flag = false;
+	int	*arr;
+	int	**dummy_board;
 
-	if (j >= g->size)
-		return;
-	while (i > 0) {
-		num = g->board[i - 1][j];
-		if (num == g->board[i - 1][j]) {
-			g->board[i - 1][j] = num + num;
-			g->added = true;
-			g->board[i][j] = 0;
-			num = g->board[i - 1][j];
-			repeat_flag = true;
-			i = 0;
-		}
-		else if (num != g->board[i - 1][j] && g->board[i - 1][j] != 0) {
-			num = g->board[i - 1][j];
-			repeat_flag = false;
-		}
-		else if (g->board[i - 1][j] == 0) {
-			g->board[i - 1][j] = num;
-			g->board[i][j] = 0;
-			repeat_flag = true;
-			i = 0;
-		}
-		if (!repeat_flag)
-			i++;
+	dummy_board = g->board;
+	while () {
+		arr = ft_malloc(sizeof(int) * g->size);
 	}
-	move_up(g, j + 1);
 }
 
 void	move_down(t_game *g, int j) {
@@ -183,9 +160,7 @@ int make_move(t_game *g, int dir)
 		move_left(g, 0);
 	else if (dir == DIR_RIGHT)
 		move_right(g, 0);
-
 	if (g->added && g->can_move)
 		add_random_tile(g);
-
 	return (0);
 }

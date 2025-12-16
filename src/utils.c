@@ -4,7 +4,7 @@ t_game	*init_new_game(int size)
 {
 	t_game	*game;
 
-	game = (t_game *)malloc(sizeof(t_game));
+	game = (t_game *)ft_malloc(sizeof(t_game), 0);
 	if (!game)
 		return (NULL);
 
@@ -18,10 +18,10 @@ t_game	*init_new_game(int size)
 
 	game->win_condition = WIN_VALUE;
 
-	game->board = malloc(sizeof(int *) * size);
+	game->board = ft_malloc(sizeof(int *) * size, 0);
 	for (int i = 0; i < size; i++)
 	{
-		game->board[i] = malloc(sizeof(int) * size);
+		game->board[i] = ft_malloc(sizeof(int) * size, 0);
 		// Initialize all cells to 0
 		for (int j = 0; j < size; j++)
 			game->board[i][j] = 0;
@@ -36,14 +36,7 @@ t_game	*init_new_game(int size)
 
 void	free_game(t_game *game)
 {
-	if (!game)
-		return;
-
-	for (int i = 0; i < game->size; i++)
-		free(game->board[i]);
-
-	free(game->board);
-	free(game);
+	ft_malloc(0, 1);
 }
 
 void add_random_tile(t_game *game)

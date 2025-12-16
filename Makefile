@@ -10,7 +10,9 @@ SRC = src/main.c \
 		src/utils.c \
 		src/ui/menù.c \
 		src/ui/game.c \
-		src/game/game_logic.c
+		src/game/game_logic.c \
+		garbage_collector/list_utils.c \
+		garbage_collector/trash_bin.c
 
 FLAGS	= -g -O3
 # FLAGS	+= -Wall -Werror -Wextra

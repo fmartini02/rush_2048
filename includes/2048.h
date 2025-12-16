@@ -33,8 +33,21 @@ typedef struct	s_game
 	enum e_const	win_condition;
 } t_game;
 
+//START G_C
+typedef struct s_list
+{
+	void			*content;
+	struct s_list	*next;
+}	t_list;
+
+t_list	*ft_lstnew(void *content);
+t_list	*ft_lstlast(t_list *lst);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+void	ft_lstdelone(t_list *lst, void (*del)(void*));
+void	ft_lstclear(t_list **lst, void (*del)(void*));
 
 t_game	*init_new_game(int size);
+//END G_C
 
 int		make_move(t_game *game, int direction);
 

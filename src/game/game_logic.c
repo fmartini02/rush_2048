@@ -1,13 +1,13 @@
 #include "2048.h"
 
 void	move_up(t_game *g, int j) {
-	int	*arr;
-	int	**dummy_board;
+	// int	*arr;
+	// int	**dummy_board;
 
-	dummy_board = g->board;
-	while (1) {
-		// arr = ft_malloc(sizeof(int) * g->size, 0);
-	}
+	// dummy_board = g->board;
+	// while (1) {
+	// 	// arr = ft_malloc(sizeof(int) * g->size, 0);
+	// }
 }
 
 void	move_down(t_game *g, int j) {

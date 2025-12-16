@@ -74,6 +74,7 @@ int	render_game(t_game *game)
 				needs_redraw = 1;
 				break;
 			case ESC: // Exit game saving state and be able to continue from main menù
+				clear();
 				return (0);
 				break;
 		}

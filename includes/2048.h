@@ -1,7 +1,9 @@
 #include <stdlib.h>
 #include <ncurses.h>
 #include <string.h>
-# include <signal.h>
+#include <signal.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #define ESC 27
 #define DIR_UP (1 << 0)
@@ -59,3 +61,7 @@ void	free_game(t_game *game);
 void	render_menù();
 
 int		render_game(t_game *game);
+
+int		load_best_score();
+
+void	save_best_score(int score);

@@ -11,9 +11,11 @@ int	render_game(t_game *game)
 	int	key;
 	int	game_over;
 	int	needs_redraw;
+	int	best_score;
 
 	game_over = 0;
 	needs_redraw = 1;
+	best_score = load_best_score();
 
 	while (!game_over && !g_sigint_pressed)
 	{
@@ -24,8 +26,13 @@ int	render_game(t_game *game)
 			// Draw the game board
 			draw_board(game);
 
-			// Display score
+			// Update best score if current score is higher
+			if (game->score > best_score)
+				best_score = game->score;
+
+			// Display score and best score
 			mvprintw(0, 0, "Score: %d", game->score);
+			mvprintw(0, 20, "Best: %d", best_score);
 			mvprintw(1, 0, "Use arrow keys to move, ESC to quit");
 
 			refresh();
@@ -74,6 +81,7 @@ int	render_game(t_game *game)
 				needs_redraw = 1;
 				break;
 			case ESC: // Exit game saving state and be able to continue from main menù
+				save_best_score(game->score);
 				clear();
 				return (0);
 				break;
@@ -81,7 +89,10 @@ int	render_game(t_game *game)
 	}
 
 	if (game_over)
+	{
+		save_best_score(game->score);
 		return (1);
+	}
 
 	return (0);
 }

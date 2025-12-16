@@ -14,6 +14,8 @@ t_game	*init_new_game(int size)
 	game->can_move = true;
 	game->added = false;
 
+	game->win_condition = WIN_VALUE;
+
 	game->board = malloc(sizeof(int *) * size);
 	for (int i = 0; i < size; i++)
 	{

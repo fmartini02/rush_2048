@@ -12,6 +12,11 @@
 
 extern int	g_sigint_pressed;
 
+enum	e_const
+{
+	WIN_VALUE = 2048
+};
+
 
 typedef struct	s_game
 {
@@ -20,13 +25,14 @@ typedef struct	s_game
 	int		size;
 	bool	can_move;
 	bool	added;
+
+	enum e_const	win_condition;
 } t_game;
 
 
 t_game	*init_new_game(int size);
 
 int		make_move(t_game *game, int direction);
-void	test_move(); // TO DO REMOVE
 
 void	add_random_tile(t_game *game);
 

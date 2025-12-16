@@ -10,13 +10,6 @@ int	main()
 	signal(SIGINT, signal_handler);
 	atexit(cleanup);
 
-	// Just for development
-	if (false)
-	{
-		test_move();
-		return (0);
-	}
-
 	// Initialize ncurses
 	initscr();
 	clear();
@@ -25,7 +18,7 @@ int	main()
 	halfdelay(1);  // Make getch() timeout after 0.1 seconds
 	curs_set(0);  // Hide cursor
 	keypad(stdscr, TRUE);
-	mousemask(ALL_MOUSE_EVENTS, NULL);
+	mousemask(ALL_MOUSE_EVENTS, NULL); // Enable mouse events to catch scroll wheel
 	mouseinterval(0);
 	
 	// Initialize colors

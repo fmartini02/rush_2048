@@ -179,11 +179,7 @@ static int	render_size_choice_menu(void)
 
 			case 10:  // Enter key
 				if (highlight == n_options - 1)  // Back to Main Menu selected
-				{
-					clear();
-					render_menù();
 					return (-1);
-				}
 
 				int	size = (highlight == 0) ? 4 : 5;
 				return (size);

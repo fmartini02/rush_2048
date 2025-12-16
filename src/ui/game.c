@@ -1,9 +1,11 @@
 #include "2048.h"
 
+static int	handle_move(t_game *game, int direction);
 static void	draw_board(t_game *game);
 static int	get_num_digits(int num);
 static int	get_color_pair(int value);
 
+// Return 0 = ESC pressed, 1 = game over (win or loss)
 int	render_game(t_game *game)
 {
 	int	key;
@@ -44,19 +46,27 @@ int	render_game(t_game *game)
 		switch (key)
 		{
 			case KEY_UP:
-				if (make_move(game, DIR_UP) >= 0)
+				if (handle_move(game, DIR_UP) == -1)
+					game_over = 1;
+				else
 					needs_redraw = 1;
 				break;
 			case KEY_DOWN:
-				if (make_move(game, DIR_DOWN) >= 0)
+				if (handle_move(game, DIR_DOWN) == -1)
+					game_over = 1;
+				else
 					needs_redraw = 1;
 				break;
 			case KEY_LEFT:
-				if (make_move(game, DIR_LEFT) >= 0)
+				if (handle_move(game, DIR_LEFT) == -1)
+					game_over = 1;
+				else
 					needs_redraw = 1;
 				break;
 			case KEY_RIGHT:
-				if (make_move(game, DIR_RIGHT) >= 0)
+				if (handle_move(game, DIR_RIGHT) == -1)
+					game_over = 1;
+				else
 					needs_redraw = 1;
 				break;
 			case KEY_RESIZE:
@@ -68,8 +78,44 @@ int	render_game(t_game *game)
 				break;
 		}
 	}
-	
+
+	if (game_over)
+		return (1);
+
 	return (0);
+}
+
+// Return 1 if redraw is needed, -1 for game over (win or loss)
+static int	handle_move(t_game *game, int direction)
+{
+	int	move_result = make_move(game, direction);
+
+	// victory
+	if (move_result == 1)
+	{
+		clear();
+		mvprintw(2 + game->size * 7 / 2, 2, "You Win! Press any key to exit.");
+		refresh();
+		cbreak();  // Disable halfdelay, enable blocking mode
+		getch();
+		halfdelay(1);  // Restore halfdelay mode
+		return (-1);
+	}
+
+	// loss
+	if (move_result == -1)
+	{
+		clear();
+		mvprintw(2 + game->size * 7 / 2, 2, "Game Over! Press any key to exit.");
+		refresh();
+		cbreak();  // Disable halfdelay, enable blocking mode
+		getch();
+		halfdelay(1);  // Restore halfdelay mode
+		return (-1);
+	}
+
+	// valid move, continue playing and need redraw
+	return (1);
 }
 
 static void	draw_board(t_game *game)

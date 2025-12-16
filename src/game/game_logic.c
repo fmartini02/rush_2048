@@ -203,13 +203,13 @@ int make_move(t_game *g, int dir)
 		add_random_tile(g);
 	can_move(g);
 
-	// Check for win
-	if (check_win(g))
-		return (1);
-
-	// Check for loss
+	// Check for loss first (takes priority)
 	if (!g->can_move)
 		return (-1);
+
+	// Check for win (only matters if you can still move)
+	if (check_win(g) && !g->win_displayed)
+		return (1);
 	
 	return (0);
 }

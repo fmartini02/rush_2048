@@ -111,7 +111,7 @@ static int	handle_move(t_game *game, int direction)
 
 			clear();
 			mvprintw(2 + game->size * 7 / 2, 2, "You Win!");
-			mvprintw(2 + game->size * 7 / 2 + 2, 2, "Press 'C' to continue playing or ESC to exit.");
+			mvprintw(2 + game->size * 7 / 2 + 2, 2, "Press 'C' to continue playing or Enter to exit.");
 			refresh();
 
 			timeout(-1);  // Blocking mode
@@ -124,7 +124,7 @@ static int	handle_move(t_game *game, int direction)
 					timeout(5);  // Restore fast timeout
 					return (1);  // Continue playing, needs redraw
 				}
-				else if (choice == ESC)
+				else if (choice == 10 || choice == KEY_ENTER)  // Enter key
 				{
 					timeout(5);  // Restore fast timeout
 					return (-1);  // Exit game
@@ -139,10 +139,16 @@ static int	handle_move(t_game *game, int direction)
 	if (move_result == -1)
 	{
 		clear();
-		mvprintw(2 + game->size * 7 / 2, 2, "Game Over! Press any key to exit.");
+		mvprintw(2 + game->size * 7 / 2, 2, "Game Over! Press Enter to exit.");
 		refresh();
 		timeout(-1);  // Blocking mode
-		getch();
+		int key;
+		while (1)
+		{
+			key = getch();
+			if (key == 10 || key == KEY_ENTER)  // Enter key
+				break;
+		}
 		timeout(5);  // Restore fast timeout
 		return (-1);
 	}

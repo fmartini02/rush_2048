@@ -114,19 +114,19 @@ static int	handle_move(t_game *game, int direction)
 			mvprintw(2 + game->size * 7 / 2 + 2, 2, "Press 'C' to continue playing or ESC to exit.");
 			refresh();
 
-			cbreak();  // Disable halfdelay, enable blocking mode
+			timeout(-1);  // Blocking mode
 			int choice;
 			while (1)
 			{
 				choice = getch();
 				if (choice == 'c' || choice == 'C')
 				{
-					halfdelay(1);  // Restore halfdelay mode
+					timeout(5);  // Restore fast timeout
 					return (1);  // Continue playing, needs redraw
 				}
 				else if (choice == ESC)
 				{
-					halfdelay(1);  // Restore halfdelay mode
+					timeout(5);  // Restore fast timeout
 					return (-1);  // Exit game
 				}
 			}
@@ -141,9 +141,9 @@ static int	handle_move(t_game *game, int direction)
 		clear();
 		mvprintw(2 + game->size * 7 / 2, 2, "Game Over! Press any key to exit.");
 		refresh();
-		cbreak();  // Disable halfdelay, enable blocking mode
+		timeout(-1);  // Blocking mode
 		getch();
-		halfdelay(1);  // Restore halfdelay mode
+		timeout(5);  // Restore fast timeout
 		return (-1);
 	}
 

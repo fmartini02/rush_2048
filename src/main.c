@@ -22,7 +22,7 @@ int	main()
 	clear();
 	noecho();
 	cbreak();
-	halfdelay(1);  // Make getch() timeout after 0.1 seconds
+	timeout(5);  // 5ms timeout for responsive input
 	curs_set(0);  // Hide cursor
 	keypad(stdscr, TRUE);
 	mousemask(ALL_MOUSE_EVENTS, NULL); // Enable mouse events to catch scroll wheel

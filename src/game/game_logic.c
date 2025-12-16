@@ -163,6 +163,22 @@ void	can_move(t_game *g)
 	g->can_move = false;
 }
 
+int	check_win(t_game *g)
+{
+	int i;
+	int j;
+
+	for (i = 0; i < g->size; i++)
+	{
+		for (j = 0; j < g->size; j++)
+		{
+			if (g->board[i][j] == g->win_condition)
+				return 1;
+		}
+	}
+	return 0;
+}
+
 int make_move(t_game *g, int dir)
 {
 	if (dir == DIR_UP)
@@ -176,7 +192,14 @@ int make_move(t_game *g, int dir)
 	if (g->added && g->can_move)
 		add_random_tile(g);
 	can_move(g);
+
+	// Check for win
+	if (check_win(g))
+		return (1);
+
+	// Check for loss
 	if (!g->can_move)
-		return -1;
+		return (-1);
+	
 	return (0);
 }

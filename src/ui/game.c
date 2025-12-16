@@ -301,5 +301,9 @@ static int	get_color_pair(int value)
 	if (value == 256) return 9;
 	if (value == 512) return 10;
 	if (value == 1024) return 11;
-	return 12; // 2048+
+	if (value == 2048) return 12;
+	if (value == 4096) return 13;
+	if (value == 8192) return 14;
+	if (value == 16384) return 15;
+	return 16; // 32768+
 }

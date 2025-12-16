@@ -32,18 +32,22 @@ int	main()
 	if (has_colors())
 	{
 		start_color();
-		init_pair(1, COLOR_BLACK, COLOR_WHITE);      // 0 (empty)
-		init_pair(2, COLOR_BLACK, COLOR_YELLOW);     // 2
-		init_pair(3, COLOR_BLACK, COLOR_GREEN);      // 4
-		init_pair(4, COLOR_WHITE, COLOR_BLUE);       // 8
-		init_pair(5, COLOR_WHITE, COLOR_MAGENTA);    // 16
-		init_pair(6, COLOR_WHITE, COLOR_CYAN);       // 32
-		init_pair(7, COLOR_BLACK, COLOR_RED);        // 64
-		init_pair(8, COLOR_YELLOW, COLOR_RED);       // 128
-		init_pair(9, COLOR_YELLOW, COLOR_MAGENTA);   // 256
-		init_pair(10, COLOR_YELLOW, COLOR_BLUE);     // 512
-		init_pair(11, COLOR_BLACK, COLOR_YELLOW);    // 1024
-		init_pair(12, COLOR_WHITE, COLOR_BLACK);     // 2048+
+		init_pair(1, COLOR_BLACK, COLOR_WHITE);      // 0 (empty) - light gray
+		init_pair(2, COLOR_BLACK, COLOR_CYAN);       // 2 - light cyan/blue
+		init_pair(3, COLOR_BLACK, COLOR_YELLOW);     // 4 - light yellow
+		init_pair(4, COLOR_WHITE, COLOR_YELLOW);     // 8 - orange
+		init_pair(5, COLOR_WHITE, COLOR_YELLOW);     // 16 - orange
+		init_pair(6, COLOR_WHITE, COLOR_RED);        // 32 - red/coral
+		init_pair(7, COLOR_WHITE, COLOR_RED);        // 64 - red
+		init_pair(8, COLOR_WHITE, COLOR_YELLOW);     // 128 - yellow
+		init_pair(9, COLOR_WHITE, COLOR_YELLOW);     // 256 - yellow
+		init_pair(10, COLOR_WHITE, COLOR_YELLOW);    // 512 - yellow
+		init_pair(11, COLOR_WHITE, COLOR_YELLOW);    // 1024 - yellow
+		init_pair(12, COLOR_BLACK, COLOR_YELLOW);    // 2048 - golden yellow
+		init_pair(13, COLOR_BLACK, COLOR_YELLOW);    // 4096 - darker yellow
+		init_pair(14, COLOR_WHITE, COLOR_MAGENTA);   // 8192 - purple
+		init_pair(15, COLOR_WHITE, COLOR_CYAN);      // 16384 - cyan
+		init_pair(16, COLOR_WHITE, COLOR_BLUE);      // 32768+ - blue
 	}
 
 	render_menù();

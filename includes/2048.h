@@ -4,11 +4,11 @@
 # include <signal.h>
 
 #define ESC 27
-#define DIR_UP (1 << 0)
-#define DIR_DOWN (1 << 1)
-#define DIR_LEFT (1 << 2)
-#define DIR_RIGHT (1 << 3)
-#define DIR_NONE (1 << 4)
+#define DIR_UP 1
+#define DIR_DOWN 2
+#define DIR_LEFT 3
+#define DIR_RIGHT 4
+#define DIR_NONE 5
 
 extern int	g_sigint_pressed;
 
@@ -23,6 +23,7 @@ typedef struct	s_game
 	int		**board;
 	int		score;
 	int		size;
+	bool	moved;
 	bool	can_move;
 	bool	added;
 

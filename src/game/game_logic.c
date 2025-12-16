@@ -1,46 +1,92 @@
 #include "2048.h"
 
-void	move_up(t_game *g, int j) {
-	int	*arr;
-	int	**dummy_board;
+void	line_up(int **arr, int size) {
+	int		i = 0, j = 1;
+	bool	end = false;
 
-	dummy_board = g->board;
-	while (1) {
-		arr = ft_malloc(sizeof(int) * g->size, 0);
+	while (!end) {
+		end = true;
+		while (j < size) {
+			if (*arr[i] == 0 && *arr[j] != 0) {
+				*arr[i] = *arr[j];
+				*arr[j] = 0;
+				end = false;
+			}
+			i++;
+			j++;
+		}
+		i = 0;
+		j = 1;
 	}
 }
 
-void	move_down(t_game *g, int j) {
-	int		i = 0;
-	int		num = 0;
-	bool	repeat_flag = false;
+void	merge(int **arr, int size) {
+	int		i = 0, j = 1;
 
-	if (j >= g->size)
-		return;
-	while (i < g->size -1) {
-		num = g->board[i][j];
-		if (num == g->board[i + 1][j]) {
-			g->board[i + 1][j] = num + num;
-			g->board[i][j] = 0;
-			g->added = true;
-			num = g->board[i + 1][j];
-			repeat_flag = true;
-			i = g->size - 1;
+	while (j < size){
+		if (*arr[i] == *arr[j]) {
+			*arr[i] += *arr[j];
+			*arr[j] = 0;
+			line_up(arr, size);
 		}
-		else if (num != g->board[i + 1][j] && g->board[i + 1][j] != 0) {
-			num = g->board[i + 1][j];
-			repeat_flag = false;
-		}
-		else if (g->board[i + 1][j] == 0) {
-			g->board[i + 1][j] = num;
-			g->board[i][j] = 0;
-			repeat_flag = true;
-			i = g->size - 1;
-		}
-		if (!repeat_flag)
-			i++;
+		i++;
+		j++;
 	}
-	move_down(g, j + 1);
+}
+
+int	move_up(t_game *g, int j) {
+	int i = 0;
+	int	*arr;
+	int	**dummy_board;
+
+	arr = ft_malloc(sizeof(int) * g->size, 0);
+	if (!arr)
+		return -1;
+	dummy_board = g->board;
+	while (j < g->size) {
+		while (i < g->size) {
+			arr[i] = dummy_board[i][j];
+			i++;
+		}
+		line_up(&arr, g->size);
+		merge(&arr, g->size);
+		i = 0;
+		while (i < g->size) {
+			dummy_board[i][j] = arr[i];
+			i++;
+		}
+		i=0;
+		j++;
+	}
+	g->board = dummy_board;
+	return 0;
+}
+
+int	move_down(t_game *g, int j) {
+	int i = 0;
+	int	*arr;
+	int	**dummy_board;
+
+	arr = ft_malloc(sizeof(int) * g->size, 0);
+	if (!arr)
+		return -1;
+	dummy_board = g->board;
+	while (j < g->size) {
+		for (int k = g->size; k > 0; k--) {
+			arr[i] = dummy_board[k][j];
+			i++;
+		}
+		line_up(&arr, g->size);
+		merge(&arr, g->size);
+		for (int k = g->size; k > 0; k--) {
+			dummy_board[k][j] = arr[i];
+			i++;
+		}
+		i = 0;
+		j++;
+	}
+	g->board = dummy_board;
+	return 0;
 }
 
 void	move_left(t_game *g, int i) {

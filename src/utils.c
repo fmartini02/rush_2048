@@ -1,5 +1,11 @@
 #include "2048.h"
 
+static size_t	count_digits(long int num);
+static void		*ft_bzero(void *b, size_t len);
+static void		*ft_calloc(size_t nitems, size_t size);
+static size_t	ft_strlen(const char *s);
+char			*ft_itoa(int n);
+
 t_game	*init_new_game(int size)
 {
 	t_game	*game;
@@ -32,6 +38,18 @@ t_game	*init_new_game(int size)
 	add_random_tile(game);
 
 	return (game);
+}
+
+size_t	ft_strlen(const char	*str)
+{
+	size_t	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str && str[i])
+		i++;
+	return (i);
 }
 
 void add_random_tile(t_game *game)
@@ -89,7 +107,7 @@ void	save_best_score(int score)
 {
 	int		fd;
 	int		current_best;
-	char	buffer[32];
+	char	*buffer;
 	int		len;
 
 	current_best = load_best_score();
@@ -104,4 +122,101 @@ void	save_best_score(int score)
 			close(fd);
 		}
 	}
+}
+
+//-------------------------------------------------------HELPERS FOR FT_ITOA
+
+static size_t	count_digits(long int num)
+{
+	size_t		count;
+
+	count = 1;
+	if (num < 0)
+	{
+		count++;
+		num = -num;
+	}
+	while (num >= 10)
+	{
+		num /= 10;
+		count++;
+	}
+	return (count);
+}
+
+static char	*reverse_string(char *s, int s_length)
+{
+	int		i;
+	int		j;
+	char	tmp;
+
+	i = 0;
+	j = s_length - 1;
+	while (i < (s_length / 2))
+	{
+		tmp = s[i];
+		s[i] = s[j];
+		s[j] = tmp;
+		i++;
+		j--;
+	}
+	return (s);
+}
+
+void	*ft_memset(void *dest, int c, size_t count)
+{
+	size_t			i;
+	unsigned char	*tmp;
+
+	tmp = dest;
+	i = 0;
+	while (i < count)
+	{
+		tmp[i] = (unsigned char)c;
+		i++;
+	}
+	return (dest);
+}
+
+void	*ft_bzero(void *dest, size_t count)
+{
+	return (ft_memset(dest, '\0', count));
+}
+
+void	*ft_calloc(size_t nitems, size_t size)
+{
+	void	*tmp;
+
+	tmp = ft_malloc(nitems * size, 0);
+	if (!tmp)
+		return (NULL);
+	return (ft_bzero(tmp, nitems * size));
+}
+
+char	*ft_itoa(int n)
+{
+	char		*res;
+	int			i;
+	size_t		digits_count;
+	long int	ln;
+
+	ln = n;
+	digits_count = count_digits(ln);
+	res = ft_calloc(sizeof(char) * (digits_count + 1), sizeof(char));
+	if (!res)
+		return (NULL);
+	if (ln < 0)
+	{
+		ln = -ln;
+		res[digits_count - 1] = '-';
+	}
+	i = 0;
+	while (ln >= 10)
+	{
+		res[i] = (ln % 10) + 48;
+		ln /= 10;
+		i++;
+	}
+	res[i] = (ln % 10) + 48;
+	return (reverse_string(res, digits_count));
 }

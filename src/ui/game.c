@@ -93,13 +93,34 @@ static int	handle_move(t_game *game, int direction)
 	// victory
 	if (move_result == 1)
 	{
-		clear();
-		mvprintw(2 + game->size * 7 / 2, 2, "You Win! Press any key to exit.");
-		refresh();
-		cbreak();  // Disable halfdelay, enable blocking mode
-		getch();
-		halfdelay(1);  // Restore halfdelay mode
-		return (-1);
+		if (game->win_displayed == false)
+		{
+			game->win_displayed = true;
+
+			clear();
+			mvprintw(2 + game->size * 7 / 2, 2, "You Win!");
+			mvprintw(2 + game->size * 7 / 2 + 2, 2, "Press 'C' to continue playing or ESC to exit.");
+			refresh();
+
+			cbreak();  // Disable halfdelay, enable blocking mode
+			int choice;
+			while (1)
+			{
+				choice = getch();
+				if (choice == 'c' || choice == 'C')
+				{
+					halfdelay(1);  // Restore halfdelay mode
+					return (1);  // Continue playing, needs redraw
+				}
+				else if (choice == ESC)
+				{
+					halfdelay(1);  // Restore halfdelay mode
+					return (-1);  // Exit game
+				}
+			}
+		}
+
+		return (1);
 	}
 
 	// loss

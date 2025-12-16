@@ -26,6 +26,10 @@ typedef struct	s_game
 	bool	can_move;
 	bool	added;
 
+	// Used to track if win message has been displayed
+	//	and allow continuing the game after winning
+	bool	win_displayed;
+
 	enum e_const	win_condition;
 } t_game;
 
